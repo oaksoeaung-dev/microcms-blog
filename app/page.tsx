@@ -5,7 +5,7 @@ type Props = {
     title: string;
 };
 async function getBlogPosts(): Promise<Props[]> {
-    try{
+    try {
         const data = await client.get({
             endpoint: "blogs",
             queries: {
@@ -15,28 +15,26 @@ async function getBlogPosts(): Promise<Props[]> {
         });
         console.log("HI");
         return data.contents;
-    }catch(error: any)
-    {
-        console.log("Error fetching",error.message, error);
+    } catch (error: any) {
+        console.log("Error fetching", error.message, error);
         return [];
     }
 }
 export default async function Home() {
     const posts = await getBlogPosts();
+
+    console.log({ posts });
+
     return (
         <div>
             <ul>
-                {
-                    posts.map((post) => {
-                        return (
-                            <li key={post.id}>
-                                <Link href={`/blogs/${post.id}`}>
-                                    {post.title}
-                                </Link>
-                            </li>
-                        )
-                    })
-                }
+                {posts.map((post) => {
+                    return (
+                        <li key={post.id}>
+                            <Link href={`/blogs/${post.id}`}>{post.title}</Link>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );
